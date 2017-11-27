@@ -19,7 +19,7 @@
 #define DOWN	1
 
 /* color definitions */
-#define ATTRIB_BALL			0xCF
+#define ATTRIB_BALL		0xCF
 #define ATTRIB_PADDLE_L		0x2E
 #define ATTRIB_PADDLE_R		0x5A
 #define ATTRIB_PADDLE_CLEAR	0x00
@@ -321,7 +321,7 @@ uint16_t _inb(uint16_t port) {
 	#asm
 		mov bx, sp
 		mov dx, [bx+2]	; get port
-		xor ax, ax		; clear AX
+		xor ax, ax	; clear AX
 		in al, dx		
 	#endasm
 }
@@ -348,7 +348,7 @@ void putc_attr(uint16_t attrib, uint16_t c) {
 		mov al, [bx+4]	; get c
 		mov ah, #0x09	; interrupt function
 		mov bl, [bx+2]	; get attrib
-		mov bh, #0		; page
+		mov bh, #0	; page
 		mov cx, #1
 		
 		int 0x10
@@ -360,9 +360,9 @@ void _putc(c) {
 		mov ah, #0x0E	; int function Eh, write char, move cursor
 		mov bx, sp
 		mov al, [bx+2]	; arguments are on stack, 
-						; see cdecl calling conventions
-		mov bh, #0		; page
-		mov cx, #1		; number of chars
+				; see cdecl calling conventions
+		mov bh, #0	; page
+		mov cx, #1	; number of chars
 		int 0x10
 	#endasm
 }
@@ -383,7 +383,7 @@ void set_cursor(uint16_t col, uint16_t row) {
 		mov bx, sp
 		mov dh, [bx+4]
 		mov dl, [bx+2]
-		xor bx, bx		; page 0
+		xor bx, bx	; page 0
 		mov ah, #0x02	; DH = row, DL = col
 		int 0x10
 	#endasm
@@ -442,6 +442,7 @@ void put_hex16(uint16_t hex16) {
 	hex8 = hex16 & 0xff;
 	put_hex8(hex8);
 }
+
 void _kbhit() {
 	#asm
 		mov ah, #0x00	; read keyboard, blocking
