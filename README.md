@@ -1,5 +1,7 @@
 # x86 pong
 
+![ScreenShot](https://raw.githubusercontent.com/spacerace/x86-pong/master/screenshot.png)
+
 This is a text-mode pong game, written in C without using any operating system
 or standard-library. 
 It will run on bare metal hardware but also under DOS and DOS emulators.
