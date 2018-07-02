@@ -2,11 +2,6 @@ all:
 	bcc -i -Md -ansi -0  -I -I. -V -W -x -o pong.com pong.c
 	ls -al pong.com
 	
-test:
-	make dosbox
-	#make copy to floppy
-	#make qemu 
-	
 dosbox:
 	dosbox
 	
