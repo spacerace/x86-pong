@@ -40,6 +40,10 @@ all builds x86-pong.
 copy_to_floppy updates the pc-booter floppy image with the current pong.com. 
 dosbox starts dosbox with my provided dosbox.conf 
 qemu starts qemu-system-i386 with the pc-booter-image 
+
+# PC-Booter image
+Here's the home of the bootloader on the floppy image: 
+https://github.com/alexfru/BootProg
  
 ![ScreenShot](https://raw.githubusercontent.com/spacerace/x86-pong/master/screenshot.png)
 
