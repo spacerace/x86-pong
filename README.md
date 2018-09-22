@@ -48,4 +48,6 @@ https://github.com/alexfru/BootProg
 ![ScreenShot](https://raw.githubusercontent.com/spacerace/x86-pong/master/screenshot.png)
 
 
+# License
 
+GPL-v2
