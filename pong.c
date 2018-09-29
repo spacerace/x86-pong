@@ -53,8 +53,7 @@ void print_str(char *s);
 char *_ultoa(unsigned long val);
 
 /* prototypes: keyboard */
-uint16_t _getch();
-#define _getch_nonblocking() _inb(0x60)
+uint16_t _getch_nonblocking();
 void _kbhit();
 
 /* prototypes: system related */
@@ -65,13 +64,14 @@ uint16_t _inb(uint16_t port);
 uint16_t color_l, color_r, color_ball;
 uint16_t score_l, score_r;
 uint16_t pos_l, pos_r;
-uint16_t scancode;
+uint16_t scancode = 0;
 uint16_t speed;
 uint16_t ball_x, ball_y;
 uint16_t dir_x, dir_y;
 
 int main() {
 	uint8_t u8temp;
+	uint16_t key;
 		
 	score_l = 0;
 	score_r = 0;
@@ -87,6 +87,8 @@ int main() {
 	dir_y = UP;
 	
 	#asm
+		mov ax, #0x0003		// reset and clear screen
+		int 0x10
 		mov ah, #0x01
 		mov cx, #0x2607		// invisible cursor
 		int 0x10
@@ -104,7 +106,10 @@ int main() {
 	_kbhit();
 	
 	for(;;) {
-		scancode = _getch_nonblocking();
+		key = _getch_nonblocking();
+		scancode = key >> 8;
+		if (key)
+			_kbhit();
 		update_score_bar();
 		switch(scancode) {
 			case 0x13:	// reset, r
@@ -117,10 +122,8 @@ int main() {
 				draw_score_bar();
 				update_score_bar();
 				_kbhit();				
-				_kbhit();				
 				break;
 			case 0x19:	// pause, p
-				_kbhit();
 				_kbhit();				
 				break;
 			case 0x48:	// R UP, arrow up
@@ -317,6 +320,7 @@ void draw_top_bar() {
 	print_str("KEYS LEFT> A Q 1 2                ESC=END                DOWN UP 9 0 <KEYS RIGHT");
 }
 
+#if 0
 uint16_t _inb(uint16_t port) {
 	#asm
 		mov bx, sp
@@ -325,6 +329,7 @@ uint16_t _inb(uint16_t port) {
 		in al, dx		
 	#endasm
 }
+#endif
 
 void inc_cursor() {
 	#asm
@@ -443,10 +448,19 @@ void put_hex16(uint16_t hex16) {
 	put_hex8(hex8);
 }
 
+uint16_t _getch_nonblocking() {
+	#asm
+		mov ah, #0x01
+		int 0x16
+		jnz .key
+		xor ax, ax
+	.key:
+	#endasm
+}
+
 void _kbhit() {
 	#asm
 		mov ah, #0x00	; read keyboard, blocking
 		int 0x16
 	#endasm
 }
-
